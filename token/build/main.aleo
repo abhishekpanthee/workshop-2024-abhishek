@@ -1,8 +1,9 @@
-program tokenworkshop2024abhishek.aleo;
+program token2024abhi.aleo;
 
-record token:
+record token2024abhi:
     owner as address.private;
     amount as u64.private;
+
 
 mapping account:
 	key as address.public;
@@ -12,7 +13,7 @@ function mint_public:
     input r0 as address.public;
     input r1 as u64.public;
     async mint_public r0 r1 into r2;
-    output r2 as token.aleo/mint_public.future;
+    output r2 as token2024abhi.aleo/mint_public.future;
 
 finalize mint_public:
     input r0 as address.public;
@@ -21,17 +22,19 @@ finalize mint_public:
     add r2 r1 into r3;
     set r3 into account[r0];
 
+
 function mint_private:
     input r0 as address.private;
     input r1 as u64.private;
-    cast r0 r1 into r2 as token.record;
-    output r2 as token.record;
+    cast r0 r1 into r2 as token2024abhi.record;
+    output r2 as token2024abhi.record;
+
 
 function transfer_public:
     input r0 as address.public;
     input r1 as u64.public;
     async transfer_public self.caller r0 r1 into r2;
-    output r2 as token.aleo/transfer_public.future;
+    output r2 as token2024abhi.aleo/transfer_public.future;
 
 finalize transfer_public:
     input r0 as address.public;
@@ -44,25 +47,27 @@ finalize transfer_public:
     add r5 r2 into r6;
     set r6 into account[r1];
 
+
 function transfer_private:
-    input r0 as token.record;
+    input r0 as token2024abhi.record;
     input r1 as address.private;
     input r2 as u64.private;
     sub r0.amount r2 into r3;
-    cast r0.owner r3 into r4 as token.record;
-    cast r1 r2 into r5 as token.record;
-    output r4 as token.record;
-    output r5 as token.record;
+    cast r0.owner r3 into r4 as token2024abhi.record;
+    cast r1 r2 into r5 as token2024abhi.record;
+    output r4 as token2024abhi.record;
+    output r5 as token2024abhi.record;
+
 
 function transfer_private_to_public:
-    input r0 as token.record;
+    input r0 as token2024abhi.record;
     input r1 as address.public;
     input r2 as u64.public;
     sub r0.amount r2 into r3;
-    cast r0.owner r3 into r4 as token.record;
+    cast r0.owner r3 into r4 as token2024abhi.record;
     async transfer_private_to_public r1 r2 into r5;
-    output r4 as token.record;
-    output r5 as token.aleo/transfer_private_to_public.future;
+    output r4 as token2024abhi.record;
+    output r5 as token2024abhi.aleo/transfer_private_to_public.future;
 
 finalize transfer_private_to_public:
     input r0 as address.public;
@@ -71,28 +76,16 @@ finalize transfer_private_to_public:
     add r2 r1 into r3;
     set r3 into account[r0];
 
+
 function transfer_public_to_private:
     input r0 as address.public;
     input r1 as u64.public;
-    cast r0 r1 into r2 as token.record;
+    cast r0 r1 into r2 as token2024abhi.record;
     async transfer_public_to_private self.caller r1 into r3;
-    output r2 as token.record;
-    output r3 as token.aleo/transfer_public_to_private.future;
+    output r2 as token2024abhi.record;
+    output r3 as token2024abhi.aleo/transfer_public_to_private.future;
 
 finalize transfer_public_to_private:
-    input r0 as address.public;
-    input r1 as u64.public;
-    get.or_use account[r0] 0u64 into r2;
-    sub r2 r1 into r3;
-    set r3 into account[r0];
-
-
-function burn:
-    input r0 as u64.public;
-    async burn self.caller r0 into r1;
-    output r1 as token.aleo/burn.future;
-
-finalize burn:
     input r0 as address.public;
     input r1 as u64.public;
     get.or_use account[r0] 0u64 into r2;
